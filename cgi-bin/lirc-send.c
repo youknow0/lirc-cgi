@@ -64,7 +64,7 @@ void send_command()
 	char *token;
 	char *query_string_arg = query_string;
 	int i;
-	for (i = 0; ; i+=2) {
+	for (i = 0; i < 39; i+=2) {
 		token = strtok_r (query_string_arg, ";", &saveptr);
 		query_string_arg = NULL;
 

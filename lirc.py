@@ -27,10 +27,7 @@ class Lirc:
 
 	def get_devices(self):
 		# request a list of all devices from lirc
-		output = subprocess.check_output(["irsend", "LIST", "", ""])
-
-		# make sure we have at least one newline in the output...
-		output += "\n"
+		output = subprocess.check_output(["irsend", "LIST", "", ""], stderr=subprocess.STDOUT)
 
 		lines = output.split("\n")
 
@@ -59,7 +56,7 @@ class Lirc:
 		device = Device(dev_id, dev_name)
 
 		# request a list of commands from lirc
-		cmd_output = subprocess.check_output(["irsend", "LIST", dev_id, ""])
+		cmd_output = subprocess.check_output(["irsend", "LIST", dev_id, ""], stderr=subprocess.STDOUT)
 
 		cmd_lines = cmd_output.split("\n")
 

@@ -49,7 +49,7 @@ class Lirc:
 		cmd_id = cmd.cmd_id
 		dev_id = cmd.get_device().dev_id
 
-		subprocess.call(["irsend", "SEND_ONCE", dev_id, cmd_id])
+		subprocess.check_call(["irsend", "SEND_ONCE", dev_id, cmd_id])
 
 	def _create_device(self, dev_id, dev_name):
 		# construct new device

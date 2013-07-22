@@ -45,6 +45,7 @@ def list_commands(dev_id):
 def exec_command(dev_id, cmd_id):
 	lirc = Lirc()
 	cmd = lirc.get_command(dev_id, cmd_id)
+	lirc.execute(cmd)
 
 	return render_template('command.html')
 

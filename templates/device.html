@@ -9,7 +9,7 @@
 	<script src="{{ url_for('static', filename='jquery.js') }}"></script>
 	<script src="{{ url_for('static', filename='jquery.mobile-1.3.1.min.js') }}"></script>
 
-	<script type="text/javascript" src="media/lirc.js">
+	<script type="text/javascript" src="{{ url_for('static', filename='lirc.js') }}">
 	</script>
 </head>
 <body data-theme="b">
@@ -23,7 +23,7 @@
 	<div data-role="content">
 		<ul data-role="listview" data-filter="true" data-filter-placeholder="Search fruits..." data-inset="true">
 		{% for cmd in commands %}
-			<li><a href="/devices/{{ dev.dev_id }}/{{ cmd.cmd_id }}" data-rel="dialog">{{ cmd.name }}</a></li>
+			<li><a class="sendcommand" href="/devices/{{ dev.dev_id }}/{{ cmd.cmd_id }}" data-rel="dialog">{{ cmd.name }}</a></li>
 		{% endfor %}
 		</ul>
 	</div>

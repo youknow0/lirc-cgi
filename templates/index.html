@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LIRC Remote Control</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='jquery.mobile-1.3.1.min.css') }}" />
+	<script src="{{ url_for('static', filename='jquery.js') }}"></script>
+	<script src="{{ url_for('static', filename='jquery.mobile-1.3.1.min.js') }}"></script>
+
+	<script type="text/javascript" src="media/lirc.js">
+	</script>
+</head>
+<body>
+
+<div data-role="page" id="selectDevice" data-theme="b">
+
+	<div data-role="header" data-theme="b">
+		<h1>LIRC Remote Control</h1>
+	</div>
+
+	<div data-role="content">
+		<ul data-role="listview" data-filter="true" data-filter-placeholder="Search fruits..." data-inset="true">
+		{% for dev in devices.values() %}
+			<li><a href="/devices/{{ dev.dev_id }}">{{ dev.name }}</a></li>
+		{% endfor %}
+		</ul>
+	</div>
+
+	<div data-role="footer" data-theme="b">
+		<h4>Steuering fern.</h4>
+	</div>
+</div>
+
+</body>
+</html>

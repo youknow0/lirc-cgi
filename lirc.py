@@ -29,6 +29,9 @@ class Lirc:
 		# request a list of all devices from lirc
 		output = subprocess.check_output(["irsend", "LIST", "", ""])
 
+		# make sure we have at least one newline in the output...
+		output += "\n"
+
 		lines = output.split("\n")
 
 		# this is the dict of devices we will be returning

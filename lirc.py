@@ -22,8 +22,6 @@
 #  
 #  
 import subprocess
-import command
-import device
 
 class Lirc:
 

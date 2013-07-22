@@ -45,7 +45,7 @@ class Lirc:
 
 		return devices
 
-	def execute(cmd):
+	def execute(self, cmd):
 		cmd_id = cmd.cmd_id
 		dev_id = cmd.get_device().dev_id
 

@@ -21,7 +21,7 @@
 	</div>
 
 	<div data-role="content">
-		<ul data-role="listview" data-filter="true" data-filter-placeholder="Search commands..." data-inset="true">
+		<ul data-role="listview" data-filter="true" data-filter-placeholder="Search devices..." data-inset="true">
 		{% for dev in devices.values() %}
 			<li><a href="/devices/{{ dev.dev_id }}">{{ dev.name }}</a></li>
 		{% endfor %}

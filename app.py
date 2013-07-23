@@ -37,7 +37,7 @@ def list_devices():
 def list_commands(dev_id):
 	lirc = Lirc()
 	dev = lirc.get_device(dev_id)
-	commands = sorted(dev.get_commands())
+	commands = sorted(dev.get_commands(), key=lambda cmd: cmd.name)
 
 	return render_template('device.html', dev=dev, commands=commands)
 

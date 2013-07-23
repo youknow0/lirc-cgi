@@ -21,7 +21,7 @@
 	</div>
 
 	<div data-role="content">
-		<ul data-role="listview" data-filter="true" data-filter-placeholder="Search fruits..." data-inset="true">
+		<ul data-role="listview" data-filter="true" data-filter-placeholder="Search devices..." data-inset="true">
 		{% for cmd in commands %}
 			<li><a class="sendcommand" href="/devices/{{ dev.dev_id }}/{{ cmd.cmd_id }}" data-rel="dialog">{{ cmd.name }}</a></li>
 		{% endfor %}

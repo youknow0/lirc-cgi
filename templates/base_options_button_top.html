@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block page_header %}
+	{{ super() }}
+	<a href="{{ url_for('options') }}" data-icon="gear" class="ui-btn-right">Options</a>
+{% endblock %}

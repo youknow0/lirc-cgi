@@ -22,6 +22,7 @@
 #  
 #  
 import subprocess
+from flask import g
 
 class Lirc:
 
@@ -39,9 +40,10 @@ class Lirc:
 
 			if device_detail[2] != "":
 				dev_id = device_detail[2]
+				dev_name = self._get_device_name_by_id(dev_id)
 
 				# construct new device
-				devices[dev_id] = self._create_device(dev_id, dev_id)
+				devices[dev_id] = self._create_device(dev_id, dev_name)
 
 		return devices
 
@@ -65,16 +67,34 @@ class Lirc:
 
 			if len(cmd_detail) >= 3:
 				cmd_id = cmd_detail[2]
+				cmd_name = self._get_command_name_by_id(dev_id, cmd_id)
 
-				cmd = Command(cmd_id, cmd_id)
+				cmd = Command(cmd_id, cmd_name)
 
 				# add the command to the device
 				device.add_command(cmd)
 
 		return device
 
+	def _get_device_name_by_id(self, dev_id):
+		name = g.query_db('SELECT name FROM devices WHERE dev_id=?', [dev_id], one=True)
+
+		if name == None:
+			return dev_id
+
+		return name[0]
+
+	def _get_command_name_by_id(self, dev_id, cmd_id):
+		name = g.query_db('SELECT name FROM commands WHERE dev_id=? AND cmd_id = ?', [dev_id, cmd_id], one=True)
+
+		if name == None:
+			return cmd_id
+
+		return name[0]
+
 	def get_device(self, dev_id):
-		return self._create_device(dev_id, dev_id)
+		dev_name = self._get_device_name_by_id(dev_id)
+		return self._create_device(dev_id, dev_name)
 
 	def get_command(self, dev_id, cmd_id):
 		dev = self.get_device(dev_id)
@@ -94,6 +114,15 @@ class Device:
 
 	def get_commands(self):
 		return self.commands.values()
+
+	def set_name(self, name):
+		cur = g.db.execute(
+			'INSERT OR REPLACE INTO devices(name, dev_id) VALUES(?, ?)',
+			(name, self.dev_id))
+
+		g.db.commit()
+
+		self.name = name
 
 	def __repr__(self):
 		my_repr = "Lirc Device id:" + self.dev_id + "\n"
@@ -116,7 +145,20 @@ class Command:
 	def get_device(self):
 		return self.device
 
+	def set_name(self, name):
+		if self.device == None:
+			return
+		
+		cur = g.db.execute(
+			'INSERT OR REPLACE INTO commands(name, dev_id, cmd_id) VALUES(?, ?, ?)',
+			(name, self.device.dev_id, self.cmd_id))
+
+		g.db.commit()
+
+		self.name = name
+
 	def __repr__(self):
 		my_repr = "Command id:" + self.cmd_id + "\n"
 
 		return my_repr
+

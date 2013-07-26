@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}LIRC Remote Control{% endblock %}
+{% block page_header %}
+	{{ super() }}
+	<a href="{{ url_for('list_devices') }}" data-icon="home" class="ui-btn-left">Home</a>
+{% endblock %}
+{% block page_content %}
+		<ul data-role="listview" data-inset="true">
+			<li><a href="{{ url_for('set_device_names') }}">Edit device names</a></li>
+			<li><a href="{{ url_for('set_command_names_choose_device') }}">Edit command names</a></li>
+		</ul>
+{% endblock %}

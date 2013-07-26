@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% block head %}
+	<title>{% block title %}{% endblock %}</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='jquery.mobile-1.3.1.min.css') }}" />
+	<script src="{{ url_for('static', filename='jquery.js') }}"></script>
+	<script src="{{ url_for('static', filename='jquery.mobile-1.3.1.min.js') }}"></script>
+
+	<script type="text/javascript" src="{{ url_for('static', filename='lirc.js') }}">
+	</script>
+	{% endblock %}
+</head>
+<body data-theme="b">
+
+<div data-role="page" id="selectDevice" data-theme="b">
+
+	<div data-role="header" data-theme="b">
+		{% block page_header %}
+		<h1>{{ self.title() }}</h1>
+		<a href="{{ url_for('options') }}" data-icon="gear" class="ui-btn-right">Options</a>
+		{% endblock %}
+	</div>
+
+	<div data-role="content">
+		{% block page_content %}
+		{% endblock %}
+		</ul>
+	</div>
+
+	<div data-role="footer" data-theme="b">
+		<h4>Steuering fern.</h4>
+	</div>
+</div>
+
+</body>
+</html>

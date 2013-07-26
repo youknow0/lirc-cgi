@@ -13,6 +13,9 @@ $(document).bind('pageinit', function() {
 			url: $(this).attr('href'),
 			complete: function() {
 				$.mobile.loading('hide');
+			},
+			error: function() {
+				alert("The command could not be executed!");
 			}
 
 		});

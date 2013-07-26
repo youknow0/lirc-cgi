@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}LIRC Remote Control{% endblock %}
+{% block page_header %}
+	{{ super() }}
+	<a href="{{ url_for('options') }}" data-icon="back" class="ui-btn-left">Options</a>
+{% endblock %}
+{% block page_content %}
+<form action="{{ url_for('save_command_names', dev_id=dev_id) }}" method="post">
+	{% for cmd in commands %}
+		<div data-role="fieldcontain">
+			<label for="textinput-fc">{{ cmd.cmd_id }}:</label>
+			<input name="{{ cmd.cmd_id }}_name" id="textinput-fc" value="{{ cmd.name }}" type="text">
+		</div>
+	{% endfor %}
+	<input data-icon="check" value="Save" type="submit">
+</form>
+{% endblock %}

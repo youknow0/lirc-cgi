@@ -1,37 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>LIRC Remote Control</title>
-
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<link rel="stylesheet" href="{{ url_for('static', filename='jquery.mobile-1.3.1.min.css') }}" />
-	<script src="{{ url_for('static', filename='jquery.js') }}"></script>
-	<script src="{{ url_for('static', filename='jquery.mobile-1.3.1.min.js') }}"></script>
-
-	<script type="text/javascript" src="{{ url_for('static', filename='lirc.js') }}">
-	</script>
-</head>
-<body data-theme="b">
-
-<div data-role="page" id="selectDevice" data-add-back-btn="true" data-theme="b">
-
-	<div data-role="header" data-theme="b">
-		<h1>{{ dev.name }}</h1>
-	</div>
-
-	<div data-role="content">
+{% extends "base.html" %}
+{% block title %}{{ dev.name }}{% endblock %}
+{% block page_header %}
+	{{ super() }}
+	<a href="{{ url_for('list_devices') }}" data-icon="back" class="ui-btn-left">All devices</a>
+{% endblock %}
+{% block page_content %}
 		<ul data-role="listview" data-filter="true" data-filter-placeholder="Search commands..." data-inset="true">
 		{% for cmd in commands %}
-			<li><a class="sendcommand" href="/devices/{{ dev.dev_id }}/{{ cmd.cmd_id }}" data-rel="dialog">{{ cmd.name }}</a></li>
+			<li><a class="sendcommand" href="{{ url_for('exec_command', dev_id=dev.dev_id,cmd_id=cmd.cmd_id) }}" data-rel="dialog">{{ cmd.name }}</a></li>
 		{% endfor %}
 		</ul>
-	</div>
-
-	<div data-role="footer" data-theme="b">
-		<h4>Steuering fern.</h4>
-	</div>
-</div>
-
-</body>
-</html>
+{% endblock %}

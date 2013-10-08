@@ -22,7 +22,7 @@
 #
 #
 import sqlite3
-from flask import Flask, render_template, g, request, redirect, url_for
+from flask import Flask, render_template, g, request, redirect, url_for, jsonify
 from contextlib import closing
 from lirc import Lirc
 
@@ -82,7 +82,7 @@ def exec_command(dev_id, cmd_id):
 	cmd = lirc.get_command(dev_id, cmd_id)
 	lirc.execute(cmd)
 
-	return render_template('command.html')
+	return jsonify(success=True)
 
 @app.route('/options')
 def options():
@@ -138,7 +138,45 @@ def save_command_names(dev_id):
 
 	return redirect(url_for('set_command_names', dev_id=dev_id))
 
+def _cmd_to_dict(cmd):
+	json_cmd = {}
+	json_cmd['cmd_id'] = cmd.cmd_id
+	json_cmd['name'] = cmd.name
+	json_cmd['dev_id'] = cmd.get_device().dev_id
+	
+	return json_cmd
+
+def _dev_to_dict(dev):
+	json_dev = {}
+	json_dev['id'] = dev.dev_id
+	json_dev['name'] = dev.name
+	json_cmds = {}
+	cmds = dev.get_commands()
+	
+	for cmd in cmds:
+		json_cmds[cmd.cmd_id] = _cmd_to_dict(cmd)
+		
+	json_dev['commands'] = json_cmds
+	
+	return json_dev
+	
+@app.route('/api/0.1/devices')
+def api_get_devices():
+	lirc = Lirc()
+	devices = lirc.get_devices()
+	
+	payload = {}
+	for dev in devices.values():
+		payload[dev.dev_id] = _dev_to_dict(dev)
+		
+	response = {}
+	response['success'] = True
+	response['payload'] = payload
+	
+	return jsonify(response)
+
 if __name__ == '__main__':
 	#app.debug = True
 	app.run(host='0.0.0.0')
+
 

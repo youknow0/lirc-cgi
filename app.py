@@ -173,7 +173,10 @@ def api_get_devices():
 	response['success'] = True
 	response['payload'] = payload
 	
-	return jsonify(response)
+	jsonResponse = jsonify(response)
+	jsonResponse.headers["Access-Control-Allow-Origin"] = "*"
+	
+	return jsonResponse
 
 if __name__ == '__main__':
 	#app.debug = True

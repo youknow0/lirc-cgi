@@ -76,13 +76,16 @@ def list_commands(dev_id):
 
 	return render_template('device.html', dev=dev, commands=commands)
 
-@app.route('/devices/<dev_id>/<cmd_id>')
+@app.route('/api/0.1/exec/<dev_id>/<cmd_id>')
 def exec_command(dev_id, cmd_id):
 	lirc = Lirc()
 	cmd = lirc.get_command(dev_id, cmd_id)
 	lirc.execute(cmd)
 
-	return jsonify(success=True)
+	jsonResponse = jsonify(success=True)
+	jsonResponse.headers["Access-Control-Allow-Origin"] = "*"
+	
+	return jsonResponse
 
 @app.route('/options')
 def options():
